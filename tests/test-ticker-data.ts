@@ -220,7 +220,7 @@ async function testQuoteSummaryModules(ticker: string): Promise<TestResult[]> {
     const startTime = Date.now();
     try {
       const data = await yahooFinance.quoteSummary(ticker, {
-        modules: [module],
+        modules: [module] as any,
       });
       
       const executionTime = Date.now() - startTime;
@@ -310,7 +310,7 @@ async function testQuoteSummaryCombinations(ticker: string): Promise<TestResult[
     const startTime = Date.now();
     try {
       const data = await yahooFinance.quoteSummary(ticker, {
-        modules,
+        modules: modules as any,
       });
       
       const executionTime = Date.now() - startTime;
