@@ -9,20 +9,47 @@ export default function FlagBadge({ flags }: FlagBadgeProps) {
     return null;
   }
 
+  const getFlagCategory = (flag: string): 'good' | 'warning' | 'neutral' => {
+    // Check for exact matches first
+    const exactMatches: Record<string, 'good' | 'warning' | 'neutral'> = {
+      'High short + Low float': 'warning',
+      'Has reverse split history': 'neutral',
+      'Cash runway < 12mo (est.)': 'warning',
+    };
+    
+    if (exactMatches[flag]) {
+      return exactMatches[flag];
+    }
+    
+    // Pattern-based matching for dynamic flags
+    if (flag.includes('Share buybacks') || flag.includes('buybacks')) {
+      return 'good';
+    }
+    if (flag.includes('dilution')) {
+      return 'warning';
+    }
+    if (flag.includes('insider buying') || flag.includes('cluster buying') || flag.includes('Executive buying')) {
+      return 'good';
+    }
+    if (flag.includes('insider selling')) {
+      return 'warning';
+    }
+    
+    return 'neutral';
+  };
+
   const getFlagColor = (flag: string): string => {
-    if (flag.includes("High short + Low float")) {
-      return "bg-yellow-100 text-yellow-800 border-yellow-300";
+    const category = getFlagCategory(flag);
+
+    switch (category) {
+      case 'good':
+        return "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 border-green-300 dark:border-green-700";
+      case 'warning':
+        return "bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 border-red-300 dark:border-red-700";
+      case 'neutral':
+      default:
+        return "bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300 border-gray-300 dark:border-gray-600";
     }
-    if (flag.includes("reverse split")) {
-      return "bg-orange-100 text-orange-800 border-orange-300";
-    }
-    if (flag.includes("Cash runway")) {
-      return "bg-red-100 text-red-800 border-red-300";
-    }
-    if (flag.includes("dilution")) {
-      return "bg-blue-100 text-blue-800 border-blue-300";
-    }
-    return "bg-gray-100 text-gray-800 border-gray-300";
   };
 
   return (

@@ -100,12 +100,12 @@ export default function TickerInput({ onAdd, isLoading = false }: TickerInputPro
             setError(null);
           }}
           placeholder="Enter ticker(s) - single: AAPL or multiple: AAPL, MSFT, TSLA"
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent"
           disabled={isAdding}
         />
-        {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
+        {error && <p className="mt-1 text-sm text-red-600 dark:text-red-400">{error}</p>}
         {addingTickers.size > 0 && (
-          <p className="mt-1 text-sm text-blue-600">
+          <p className="mt-1 text-sm text-blue-600 dark:text-blue-400">
             Adding: {Array.from(addingTickers).join(", ")}
           </p>
         )}
@@ -113,7 +113,7 @@ export default function TickerInput({ onAdd, isLoading = false }: TickerInputPro
       <button
         type="submit"
         disabled={isAdding}
-        className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        className="px-6 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
       >
         {displayText}
       </button>
