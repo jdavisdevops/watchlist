@@ -59,6 +59,20 @@ export default function TickerCard({ data, onRemove, isExpanded, onToggleExpand 
     return val.toLocaleString();
   };
 
+  const formatShares = (val: number | null): string => {
+    if (val === null) return "-";
+    if (val >= 1_000_000_000) {
+      return `${(val / 1_000_000_000).toFixed(1)}B`;
+    }
+    if (val >= 1_000_000) {
+      return `${(val / 1_000_000).toFixed(1)}M`;
+    }
+    if (val >= 1_000) {
+      return `${(val / 1_000).toFixed(1)}K`;
+    }
+    return val.toLocaleString();
+  };
+
   const formatRecommendation = (val: number | null): string => {
     if (val === null) return "-";
     // recommendationMean: 1 = Strong Buy, 2 = Buy, 3 = Hold, 4 = Underperform, 5 = Sell
@@ -88,8 +102,8 @@ export default function TickerCard({ data, onRemove, isExpanded, onToggleExpand 
 
   // Smart fallback logic for main card metrics
   const getFloatDisplay = () => {
-    if (data.float !== null) return { label: "Float", value: formatNumber(data.float) };
-    if (data.sharesOutstanding !== null) return { label: "Shares Out", value: formatNumber(data.sharesOutstanding) };
+    if (data.float !== null) return { label: "Float", value: formatShares(data.float) };
+    if (data.sharesOutstanding !== null) return { label: "Shares Out", value: formatShares(data.sharesOutstanding) };
     return { label: "Float", value: "-" };
   };
 
@@ -101,7 +115,7 @@ export default function TickerCard({ data, onRemove, isExpanded, onToggleExpand 
 
   const getInstitutionalOwnershipDisplay = () => {
     if (data.institutionalOwnership !== null) return { label: "Inst. Own", value: formatPercent(data.institutionalOwnership) };
-    if (data.volume !== null) return { label: "Volume", value: formatNumber(data.volume) };
+    if (data.volume !== null) return { label: "Volume", value: formatVolume(data.volume) };
     if (data.fiftyTwoWeekHigh !== null && data.fiftyTwoWeekLow !== null) {
       return { label: "52W Range", value: `$${data.fiftyTwoWeekLow.toFixed(2)}-${data.fiftyTwoWeekHigh.toFixed(2)}` };
     }
@@ -286,13 +300,13 @@ export default function TickerCard({ data, onRemove, isExpanded, onToggleExpand 
                 {data.float !== null && (
                   <div className="flex flex-col min-w-0">
                     <span className="text-gray-600 dark:text-gray-400">Float:</span>
-                    <span className="text-gray-900 dark:text-white">{formatNumber(data.float)}</span>
+                    <span className="text-gray-900 dark:text-white">{formatShares(data.float)}</span>
                   </div>
                 )}
                 {data.shortFloatShares !== null && (
                   <div className="flex flex-col min-w-0">
                     <span className="text-gray-600 dark:text-gray-400">Short Float:</span>
-                    <span className="text-gray-900 dark:text-white">{formatNumber(data.shortFloatShares)}</span>
+                    <span className="text-gray-900 dark:text-white">{formatShares(data.shortFloatShares)}</span>
                   </div>
                 )}
                 {data.pctFloatShort !== null && (
@@ -304,7 +318,7 @@ export default function TickerCard({ data, onRemove, isExpanded, onToggleExpand 
                 {data.sharesOutstanding !== null && data.float === null && (
                   <div className="flex flex-col min-w-0">
                     <span className="text-gray-600 dark:text-gray-400">Shares Outstanding:</span>
-                    <span className="text-gray-900 dark:text-white">{formatNumber(data.sharesOutstanding)}</span>
+                    <span className="text-gray-900 dark:text-white">{formatShares(data.sharesOutstanding)}</span>
                   </div>
                 )}
               </div>
@@ -358,7 +372,7 @@ export default function TickerCard({ data, onRemove, isExpanded, onToggleExpand 
                 {data.sharesOutstanding !== null && data.float !== null && (
                   <div className="flex flex-col min-w-0">
                     <span className="text-gray-600 dark:text-gray-400">Shares Outstanding:</span>
-                    <span className="text-gray-900 dark:text-white">{formatNumber(data.sharesOutstanding)}</span>
+                    <span className="text-gray-900 dark:text-white">{formatShares(data.sharesOutstanding)}</span>
                   </div>
                 )}
               </div>
